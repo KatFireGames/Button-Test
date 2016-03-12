@@ -32,7 +32,6 @@ public class Screen{
 		frame.setResizable(false);
 		frame.setIgnoreRepaint(true);
 		frame.setBackground(Color.BLACK);
-		frame.setForeground(Color.WHITE);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setIconImage(icon);
 		
@@ -58,6 +57,14 @@ public class Screen{
 		frame.dispose();
 		vc.setFullScreenWindow(null);
 		
+	}
+	
+	public int getWidth(){
+		return width;
+	}
+	
+	public int getHeight(){
+		return height;
 	}
 	
 	protected GraphicsDevice getGraphicsDevice(){
