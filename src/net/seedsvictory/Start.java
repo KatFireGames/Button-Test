@@ -4,16 +4,16 @@ import net.seedsvictory.gameman.GameManager;
 
 public class Start {
 	
-	private static Thread game;
+	private static Thread gameManager;
 	
 	public static void main(String[] args){
 		
-		game = new Thread(new GameManager());
+		gameManager = new Thread(new GameManager());
 		
-		game.start();
+		gameManager.start();
 		
 		try {
-			game.join();
+			gameManager.join();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
