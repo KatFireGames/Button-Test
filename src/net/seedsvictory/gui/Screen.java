@@ -87,14 +87,29 @@ public class Screen{
 	
 	private DisplayMode getCorrectDisplayMode(){
 		DisplayMode[] modes = vc.getDisplayModes();
+		
+		if(System.getProperty("os.name").contains("Windows")){
 			
 			for(int i = 0; i < modes.length; i++){
 				
 				if(modes[i].getWidth() == width && modes[i].getHeight() == height){
-					return modes[i];
+					if(modes[i].getBitDepth() == 32){
+						return modes[i];
+					}
 				}
 				
 			}
+		}
+		
+		for(int i = 0; i < modes.length; i++){
+			
+			if(modes[i].getWidth() == width && modes[i].getHeight() == height){
+				
+				return modes[i];
+				
+			}
+			
+		}
 			
 		return null;
 	}

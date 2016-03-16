@@ -24,6 +24,8 @@ public class GameManager implements Runnable {
 	private static Thread assetManager, game, entityManager, particleManager, playerManager;
 	private static PlayerManager playerMgr;
 	
+	private static Color swap = Color.BLUE;
+	
 	public void run() {
 		
 		System.out.println("Found directory to be: " + Player.rootDir);
@@ -69,16 +71,25 @@ public class GameManager implements Runnable {
 			
 			if(menuSetup){
 				ClickableButton.createButton("exit", 0, 0, 64, 64);
+				ClickableButton.createButton("color", 64, 0, 64, 64);
 				menuSetup = false;
 			}
+			
 			g.setColor(Color.BLACK);
 			g.fillRect(0,0,win.getWidth(),win.getHeight());
-			g.setColor(Color.BLUE);
+			g.setColor(swap);
 			g.fillRect((int)Player.getPlayerPos().getX()-50, (int)Player.getPlayerPos().getY()-50, 100, 100);
 			
 			if(buttonMgr.getButtonClicked().equals("exit")){
 				playerMgr.stopGame();
 				break;
+			}
+			if(buttonMgr.getButtonClicked().equals("color")){
+				if(swap == Color.BLUE){
+					swap = Color.RED;
+				}else{
+					swap = Color.BLUE;
+				}
 			}
 			
 			if(ClickableButton.getButtonClicked((int)buttonMgr.getMousePos().getX(), (int)buttonMgr.getMousePos().getY()) == "exit"){
@@ -93,11 +104,13 @@ public class GameManager implements Runnable {
 			
 			g.drawImage(VisualAssetManager.getImage("quit"), 0, 0, 64, 64, null);
 			
+			g.drawImage(VisualAssetManager.getImage("b_small"), 64, 0, 64, 64, null);
+			
 			win.update();
 			
 			try{
 				
-				Thread.sleep(50);
+				Thread.sleep(10);
 				
 			}catch(Exception e){
 				

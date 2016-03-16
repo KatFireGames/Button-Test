@@ -5,9 +5,9 @@ import java.awt.Toolkit;
 
 public abstract class VisualAssetManager {
 	
-	private static Image imagenotfound = Toolkit.getDefaultToolkit().getImage("imagenotfound.png");
-	private static Image[] assets = new Image[0];
-	private static String[] names = new String[0];
+	private volatile static Image imagenotfound = Toolkit.getDefaultToolkit().getImage("imagenotfound.png");
+	private volatile static Image[] assets = new Image[0];
+	private volatile static String[] names = new String[0];
 	
 	public static void addAsset(Image img, String unlocName){
 		Image[] temp = new Image[assets.length+1];

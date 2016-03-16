@@ -1,7 +1,6 @@
 package net.seedsvictory.entity.player;
 
 import java.awt.event.KeyEvent;
-
 import net.seedsvictory.gui.Screen;
 import net.seedsvictory.gui.tools.InputManager;
 
@@ -40,7 +39,7 @@ public class PlayerManager implements Runnable{
 				
 				}
 				try{
-					Thread.sleep(50);
+					Thread.sleep(25);
 				}catch(Exception ex){
 					ex.printStackTrace();
 				}
