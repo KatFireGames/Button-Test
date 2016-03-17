@@ -9,11 +9,15 @@ import java.awt.event.MouseMotionListener;
 
 public class ButtonInterface implements MouseListener, MouseMotionListener, KeyListener {
 	
-	private static String buttonClicked = "none";
+	private volatile static String buttonClicked = "none";
 	private static int x, y;
 	
 	public String getButtonClicked(){
 		return buttonClicked;
+	}
+	
+	public void clearButton(){
+		buttonClicked = "none";
 	}
 	
 	public Point getMousePos(){

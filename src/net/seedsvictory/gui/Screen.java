@@ -93,7 +93,7 @@ public class Screen{
 			for(int i = 0; i < modes.length; i++){
 				
 				if(modes[i].getWidth() == width && modes[i].getHeight() == height){
-					if(modes[i].getBitDepth() == 32){
+					if(modes[i].getBitDepth() == 32 && modes[i].getRefreshRate() == DisplayMode.REFRESH_RATE_UNKNOWN){
 						return modes[i];
 					}
 				}

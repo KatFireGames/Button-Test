@@ -9,13 +9,14 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Toolkit;
 
-import net.seedsvictory.entity.player.*;
+import net.seedsvictory.entity.player.Player;
+import net.seedsvictory.entity.player.PlayerInterface;
+import net.seedsvictory.entity.player.PlayerManager;
 import net.seedsvictory.gui.Screen;
 import net.seedsvictory.gui.SilkScreen;
 import net.seedsvictory.gui.VisualAssetManager;
 import net.seedsvictory.gui.tools.ButtonInterface;
 import net.seedsvictory.gui.tools.ClickableButton;
-import net.seedsvictory.gui.tools.InputManager;
 
 public class GameManager implements Runnable {
 	
@@ -47,17 +48,14 @@ public class GameManager implements Runnable {
 		logo(win);
 		
 		ButtonInterface buttonMgr = new ButtonInterface();
-		InputManager inputMgr = new InputManager();
+		PlayerInterface playerInt = new PlayerInterface();
 		
 		win.getFullScreenWindow().addMouseListener(buttonMgr);
 		win.getFullScreenWindow().addMouseMotionListener(buttonMgr);
 		
-		win.getFullScreenWindow().addMouseListener(inputMgr);
-		win.getFullScreenWindow().addMouseMotionListener(inputMgr);
-		win.getFullScreenWindow().addMouseWheelListener(inputMgr);
-		win.getFullScreenWindow().addKeyListener(inputMgr);
+		win.getFullScreenWindow().addKeyListener(playerInt);
 		
-		playerMgr = new PlayerManager(inputMgr, win);
+		playerMgr = new PlayerManager(playerInt, 50, win);
 		playerManager = new Thread(playerMgr);
 		
 		playerManager.start();
@@ -78,18 +76,22 @@ public class GameManager implements Runnable {
 			g.setColor(Color.BLACK);
 			g.fillRect(0,0,win.getWidth(),win.getHeight());
 			g.setColor(swap);
-			g.fillRect((int)Player.getPlayerPos().getX()-50, (int)Player.getPlayerPos().getY()-50, 100, 100);
+			g.fillRect((int)Player.getPlayerPos().getX()-25, (int)Player.getPlayerPos().getY()-25, 50, 50);
 			
-			if(buttonMgr.getButtonClicked().equals("exit")){
-				playerMgr.stopGame();
+			if(!buttonMgr.getButtonClicked().equals("none")){
+				switch(buttonMgr.getButtonClicked()){
+				case "exit":
+					win.stopWindow();
+					playerMgr.stopGame();
 				break;
-			}
-			if(buttonMgr.getButtonClicked().equals("color")){
-				if(swap == Color.BLUE){
-					swap = Color.RED;
-				}else{
-					swap = Color.BLUE;
+				
+				case "color":
+					if(swap == Color.BLUE){swap = Color.RED;}
+					else{swap = Color.BLUE;}
+				break;
+					
 				}
+				buttonMgr.clearButton();
 			}
 			
 			if(ClickableButton.getButtonClicked((int)buttonMgr.getMousePos().getX(), (int)buttonMgr.getMousePos().getY()) == "exit"){
@@ -102,9 +104,17 @@ public class GameManager implements Runnable {
 				
 			}
 			
-			g.drawImage(VisualAssetManager.getImage("quit"), 0, 0, 64, 64, null);
+			if(ClickableButton.getButtonClicked((int)buttonMgr.getMousePos().getX(), (int)buttonMgr.getMousePos().getY()) == "color"){
+				
+				g.drawImage(VisualAssetManager.getImage("bi_small"), 64, 0, 64, 64, null);
 			
-			g.drawImage(VisualAssetManager.getImage("b_small"), 64, 0, 64, 64, null);
+			}else{
+				
+				g.drawImage(VisualAssetManager.getImage("b_small"), 64, 0, 64, 64, null);
+				
+			}
+			
+			g.drawImage(VisualAssetManager.getImage("quit"), 0, 0, 64, 64, null);
 			
 			win.update();
 			

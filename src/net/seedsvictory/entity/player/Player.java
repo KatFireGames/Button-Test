@@ -6,19 +6,28 @@ public abstract class Player {
 	
 	protected volatile static boolean gameRunning = true;
 	
-	public static String rootDir = System.getProperty("user.dir");
+	public static final String rootDir = System.getProperty("user.dir");
 	
 	private static Point playerPos;
 	
 	private static int hp, maxHp;
 	
+	private static int x, y;
+	
+	private static int size;
+	
 	public static Point getPlayerPos(){
 		return playerPos;
 	}
 	
-	public static void initPos(int x, int y){
-		playerPos = new Point(x/2, y/2);
+	public static void initPos(){
+		playerPos = new Point((x/2)-((x/2)%10), (y/2)-((y/2)%10));
 	}
+	
+	protected static void initScreenSize(int maxX, int maxY){
+		x = maxX;
+		y = maxY;
+	} 
 	
 	public static boolean isGameRunning(){
 		return gameRunning;
@@ -39,28 +48,21 @@ public abstract class Player {
 			hp = hp - i;
 		}
 	}
-	
-	public static void up(int minY){
-		if(playerPos.y > minY){
-			playerPos = new Point(playerPos.x, playerPos.y - 10);
-		}
+
+	public static void setSize(int playerSize) {
+		size = playerSize;
+		
 	}
-	
-	public static void down(int maxY){
-		if(playerPos.y < maxY){
-		playerPos = new Point(playerPos.x, playerPos.y + 10);
-		}
-	}
-	
-	public static void right(int maxX){
-		if(playerPos.x < maxX){
-			playerPos = new Point(playerPos.x + 10, playerPos.y);
-		}
-	}
-	
-	public static void left(int minX){
-		if(playerPos.x > minX){
-			playerPos = new Point(playerPos.x - 10, playerPos.y);
+
+	protected static void goDirection(boolean[] directions) {
+		if(directions.length == 4){
+			int tmpX = (int)playerPos.getX();
+			int tmpY = (int)playerPos.getY();
+			if(directions[0] && tmpX < x-(size/2)){tmpX = tmpX + 5;}
+			if(directions[1] && tmpX > 0+(size/2)){tmpX = tmpX - 5;}
+			if(directions[2] && tmpY > 0+(size/2)){tmpY = tmpY - 5;}
+			if(directions[3] && tmpY < y-(size/2)){tmpY = tmpY + 5;}
+			playerPos = new Point(tmpX, tmpY);
 		}
 	}
 }
